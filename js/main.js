@@ -39,7 +39,7 @@
       who_kicker: 'La mano', who_title: 'Da Ermira, una persona alla volta',
       who_body: 'Elisir del Benessere è un centro a conduzione personale: Ermira accoglie chi arriva senza sovrapposizioni, con la cura del dettaglio che le riconoscono le recensioni. Ambiente accogliente e moderno, sulla riva del Naviglio Grande — il posto giusto per rallentare davvero.',
       who_reviews: 'su 257 recensioni', ermira_cap: 'La cabina trattamenti',
-      gal_kicker: 'Il centro', gal_title: 'Dentro Elisir', gal_sub: 'Cabine, luci soffuse e la cura del dettaglio, sulla riva del Naviglio Grande.', gal_nota: 'Foto dal profilo Google del centro — diritti da confermare.',
+      gal_kicker: 'Il centro', gal_title: 'Dentro Elisir', gal_sub: 'Cabine, luci soffuse e la cura del dettaglio, sulla riva del Naviglio Grande.', gal_nota: 'Foto dal profilo Google del centro — diritti da confermare.', gal_hint: 'Tocca una foto per ingrandirla',
       gc1: 'Cabina con cielo stellato', gc2: "L'angolo dei prodotti", gc3: 'Una cabina trattamenti', gc4: "L'ingresso", gc5: 'Cabina viso e corpo', gc6: "L'insegna, in Ripa di Porta Ticinese",
       prova_kicker: 'La fiducia', prova_sub: 'La media di 257 recensioni verificate. La cura si sente, e si legge.', prova_cta: 'Leggi tutte le recensioni', rec_ago: '· 5 mesi fa',
       book_kicker: 'L’appuntamento', book_title: 'Prenota il tuo momento',
@@ -83,7 +83,7 @@
       who_kicker: 'The hand', who_title: 'With Ermira, one person at a time',
       who_body: 'Elisir del Benessere is a personally run centre: Ermira welcomes each guest with no overlap, with the attention to detail her reviews are known for. A warm, modern setting on the bank of the Naviglio Grande — the right place to truly slow down.',
       who_reviews: 'from 257 reviews', ermira_cap: 'A treatment room',
-      gal_kicker: 'The centre', gal_title: 'Inside Elisir', gal_sub: 'Treatment rooms, soft light and attention to detail, on the bank of the Naviglio Grande.', gal_nota: 'Photos from the centre’s Google profile — rights to be confirmed.',
+      gal_kicker: 'The centre', gal_title: 'Inside Elisir', gal_sub: 'Treatment rooms, soft light and attention to detail, on the bank of the Naviglio Grande.', gal_nota: 'Photos from the centre’s Google profile — rights to be confirmed.', gal_hint: 'Tap a photo to enlarge',
       gc1: 'A treatment room with a starlit ceiling', gc2: 'The product corner', gc3: 'A face & body room', gc4: 'The entrance', gc5: 'Face & body room', gc6: 'The sign, on Ripa di Porta Ticinese',
       prova_kicker: 'The trust', prova_sub: 'The average of 257 verified reviews. The care shows — and reads.', prova_cta: 'Read all reviews', rec_ago: '· 5 months ago',
       book_kicker: 'The appointment', book_title: 'Book your moment',
@@ -113,16 +113,14 @@
   document.querySelectorAll('.lang-btn').forEach(function (b) { b.addEventListener('click', function () { applyLang(b.getAttribute('data-lang')); }); });
 
   /* ---------- micro-CTA per trattamento (email precompilata) ---------- */
+  var WA = '390235990957'; // il fisso 02 35990957 è anche WhatsApp
   document.querySelectorAll('.voce-cta').forEach(function (cta) {
     cta.addEventListener('click', function (e) {
       e.preventDefault(); e.stopPropagation();
       var voce = cta.closest('.voce');
       var nome = voce ? voce.querySelector('.voce-n').textContent.trim() : '';
-      var subj = (current === 'en' ? 'Booking: ' : 'Prenotazione: ') + nome;
-      var body = current === 'en'
-        ? 'Hello, I would like to book: ' + nome + '.'
-        : 'Buongiorno, vorrei prenotare: ' + nome + '.';
-      window.location.href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body);
+      var msg = (current === 'en' ? "Hi, I'd like to book: " : 'Ciao, vorrei prenotare: ') + nome + '.';
+      window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
     });
   });
 
