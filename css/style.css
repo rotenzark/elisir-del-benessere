@@ -226,6 +226,12 @@ body.intro-lock { overflow: hidden; }
 .prova-voto > span:first-child { font-size: clamp(56px, 11vw, 104px); line-height: 1; color: var(--candela); }
 .prova-stelle { font-size: clamp(20px, 3vw, 30px); color: var(--ambra); letter-spacing: 0.1em; }
 .prova-sub { max-width: 44ch; margin: 18px auto 30px; color: var(--su-scuro-soft); font-size: 16.5px; }
+.recensioni { max-width: var(--maxw); margin: clamp(36px, 5vw, 50px) auto clamp(28px, 4vw, 38px); display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; text-align: left; }
+.rec { margin: 0; padding: 24px 22px; background: rgba(241, 231, 213, 0.045); border: 1px solid rgba(241, 231, 213, 0.14); border-radius: 4px; display: flex; flex-direction: column; gap: 12px; }
+.rec-stelle { color: var(--ambra); font-size: 14px; letter-spacing: 0.14em; }
+.rec-q { font-family: var(--f-display); font-size: 17px; line-height: 1.45; color: var(--su-scuro); font-weight: 400; }
+.rec-a { font-family: var(--f-body); font-size: 13px; font-weight: 600; letter-spacing: 0.03em; color: var(--basalto); margin-top: auto; }
+.rec-d { color: var(--su-scuro-faint); font-weight: 400; }
 
 /* ============ PRENOTA ============ */
 
