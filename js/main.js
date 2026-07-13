@@ -39,6 +39,8 @@
       who_kicker: 'La mano', who_title: 'Da Ermira, una persona alla volta',
       who_body: 'Elisir del Benessere è un centro a conduzione personale: Ermira accoglie chi arriva senza sovrapposizioni, con la cura del dettaglio che le riconoscono le recensioni. Ambiente accogliente e moderno, sulla riva del Naviglio Grande — il posto giusto per rallentare davvero.',
       who_reviews: 'su 257 recensioni', ermira_cap: 'La cabina trattamenti',
+      gal_kicker: 'Il centro', gal_title: 'Dentro Elisir', gal_sub: 'Cabine, luci soffuse e la cura del dettaglio, sulla riva del Naviglio Grande.', gal_nota: 'Foto dal profilo Google del centro — diritti da confermare.',
+      gc1: 'Cabina con cielo stellato', gc2: "L'angolo dei prodotti", gc3: 'Una cabina trattamenti', gc4: "L'ingresso", gc5: 'Cabina viso e corpo', gc6: "L'insegna, in Ripa di Porta Ticinese",
       prova_kicker: 'La fiducia', prova_sub: 'La media di 257 recensioni verificate. La cura si sente, e si legge.', prova_cta: 'Leggi tutte le recensioni', rec_ago: '· 5 mesi fa',
       book_kicker: 'L’appuntamento', book_title: 'Prenota il tuo momento',
       book_sub: 'Le prenotazioni online sono in aggiornamento: per ora bastano un attimo e un messaggio. Ti richiamiamo se serve.',
@@ -81,6 +83,8 @@
       who_kicker: 'The hand', who_title: 'With Ermira, one person at a time',
       who_body: 'Elisir del Benessere is a personally run centre: Ermira welcomes each guest with no overlap, with the attention to detail her reviews are known for. A warm, modern setting on the bank of the Naviglio Grande — the right place to truly slow down.',
       who_reviews: 'from 257 reviews', ermira_cap: 'A treatment room',
+      gal_kicker: 'The centre', gal_title: 'Inside Elisir', gal_sub: 'Treatment rooms, soft light and attention to detail, on the bank of the Naviglio Grande.', gal_nota: 'Photos from the centre’s Google profile — rights to be confirmed.',
+      gc1: 'A treatment room with a starlit ceiling', gc2: 'The product corner', gc3: 'A face & body room', gc4: 'The entrance', gc5: 'Face & body room', gc6: 'The sign, on Ripa di Porta Ticinese',
       prova_kicker: 'The trust', prova_sub: 'The average of 257 verified reviews. The care shows — and reads.', prova_cta: 'Read all reviews', rec_ago: '· 5 months ago',
       book_kicker: 'The appointment', book_title: 'Book your moment',
       book_sub: 'Online booking is being updated: for now, a moment and a message are enough. We’ll call you back if needed.',
@@ -101,6 +105,7 @@
     current = lang; document.documentElement.lang = lang;
     document.querySelectorAll('[data-i18n]').forEach(function (el) { var k = el.getAttribute('data-i18n'); if (dict[k] !== undefined) el.textContent = dict[k]; });
     document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { var k = el.getAttribute('data-i18n-aria'); if (dict[k] !== undefined) el.setAttribute('aria-label', dict[k]); });
+    document.querySelectorAll('[data-i18n-alt]').forEach(function (el) { var k = el.getAttribute('data-i18n-alt'); if (dict[k] !== undefined) el.setAttribute('alt', dict[k]); });
     document.querySelectorAll('.lang-btn').forEach(function (b) { var a = b.getAttribute('data-lang') === lang; b.classList.toggle('is-active', a); b.setAttribute('aria-pressed', String(a)); });
     try { localStorage.setItem('elisir-lang', lang); } catch (e) {}
     updateStatus();
@@ -287,10 +292,38 @@
     window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
   }
 
+  /* ---------- lightbox gallery ---------- */
+  var lb = document.getElementById('lightbox');
+  if (lb) {
+    var lbImg = lb.querySelector('.lb-img');
+    var lbCap = lb.querySelector('.lb-cap');
+    var tiles = Array.prototype.slice.call(document.querySelectorAll('.tile'));
+    var lbIdx = -1, lbLastFocus = null;
+    var capText = function (key) { var d = translations[current]; return (d && d[key]) || ''; };
+    var lbShow = function (i) {
+      if (!tiles.length) return;
+      if (i < 0) i = tiles.length - 1;
+      if (i >= tiles.length) i = 0;
+      lbIdx = i;
+      var t = tiles[i];
+      lbImg.src = t.getAttribute('data-full');
+      lbImg.alt = capText(t.getAttribute('data-cap'));
+      lbCap.textContent = capText(t.getAttribute('data-cap'));
+    };
+    var lbOpen = function (i) { lbLastFocus = document.activeElement; lb.hidden = false; document.body.classList.add('lb-lock'); lbShow(i); lb.querySelector('.lb-close').focus(); };
+    var lbClose = function () { lb.hidden = true; document.body.classList.remove('lb-lock'); if (lbLastFocus && lbLastFocus.focus) lbLastFocus.focus(); };
+    tiles.forEach(function (t, i) { t.addEventListener('click', function () { lbOpen(i); }); });
+    lb.querySelector('.lb-close').addEventListener('click', lbClose);
+    lb.querySelector('.lb-prev').addEventListener('click', function () { lbShow(lbIdx - 1); });
+    lb.querySelector('.lb-next').addEventListener('click', function () { lbShow(lbIdx + 1); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) lbClose(); });
+    document.addEventListener('keydown', function (e) { if (lb.hidden) return; if (e.key === 'Escape') lbClose(); else if (e.key === 'ArrowLeft') lbShow(lbIdx - 1); else if (e.key === 'ArrowRight') lbShow(lbIdx + 1); });
+  }
+
   /* ---------- reveal ---------- */
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduced && 'IntersectionObserver' in window) {
-    var targets = document.querySelectorAll('.sez-intesta, .elisir-inner, .gruppo, .ermira-media, .ermira-testo, .prova > *, .prenota-inner, .dove-orari, .dove-luogo');
+    var targets = document.querySelectorAll('.sez-intesta, .elisir-inner, .gruppo, .ermira-media, .ermira-testo, .tile, .prova > *, .prenota-inner, .dove-orari, .dove-luogo');
     targets.forEach(function (t) { t.classList.add('reveal'); });
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } }); }, { threshold: 0.12 });
     targets.forEach(function (t) { io.observe(t); });

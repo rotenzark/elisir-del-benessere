@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
   <link href="https://api.fontshare.com/v2/css?f[]=sentient@400,500,700,1&f[]=switzer@400,500,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/style.css?v=5">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -223,6 +223,42 @@
       </div>
     </section>
 
+    <!-- ============ GALLERIA ============ -->
+    <section class="galleria" id="galleria">
+      <div class="sez-intesta">
+        <p class="kicker" data-i18n="gal_kicker">Il centro</p>
+        <h2 class="sez-titolo" data-i18n="gal_title">Dentro Elisir</h2>
+        <p class="sez-sub" data-i18n="gal_sub">Cabine, luci soffuse e la cura del dettaglio, sulla riva del Naviglio Grande.</p>
+      </div>
+      <div class="gallery" id="gallery">
+        <button class="tile" type="button" data-full="img/gal1-lg.jpg?v=1" data-cap="gc1">
+          <img src="img/gal1.jpg?v=1" alt="Cabina con cielo stellato" data-i18n-alt="gc1" loading="lazy" width="780" height="585">
+          <span class="tile-cap" data-i18n="gc1">Cabina con cielo stellato</span>
+        </button>
+        <button class="tile" type="button" data-full="img/gal2-lg.jpg?v=1" data-cap="gc2">
+          <img src="img/gal2.jpg?v=1" alt="L'angolo dei prodotti" data-i18n-alt="gc2" loading="lazy" width="780" height="585">
+          <span class="tile-cap" data-i18n="gc2">L'angolo dei prodotti</span>
+        </button>
+        <button class="tile" type="button" data-full="img/gal3-lg.jpg?v=1" data-cap="gc3">
+          <img src="img/gal3.jpg?v=1" alt="Una cabina trattamenti" data-i18n-alt="gc3" loading="lazy" width="780" height="585">
+          <span class="tile-cap" data-i18n="gc3">Una cabina trattamenti</span>
+        </button>
+        <button class="tile" type="button" data-full="img/gal4-lg.jpg?v=1" data-cap="gc4">
+          <img src="img/gal4.jpg?v=1" alt="L'ingresso" data-i18n-alt="gc4" loading="lazy" width="780" height="585">
+          <span class="tile-cap" data-i18n="gc4">L'ingresso</span>
+        </button>
+        <button class="tile" type="button" data-full="img/gal5-lg.jpg?v=1" data-cap="gc5">
+          <img src="img/gal5.jpg?v=1" alt="Cabina viso e corpo" data-i18n-alt="gc5" loading="lazy" width="780" height="585">
+          <span class="tile-cap" data-i18n="gc5">Cabina viso e corpo</span>
+        </button>
+        <button class="tile" type="button" data-full="img/gal6-lg.jpg?v=1" data-cap="gc6">
+          <img src="img/gal6.jpg?v=1" alt="L'insegna, in Ripa di Porta Ticinese" data-i18n-alt="gc6" loading="lazy" width="780" height="585">
+          <span class="tile-cap" data-i18n="gc6">L'insegna, in Ripa di Porta Ticinese</span>
+        </button>
+      </div>
+      <p class="gal-nota" data-i18n="gal_nota">Foto dal profilo Google del centro — diritti da confermare.</p>
+    </section>
+
     <!-- ============ RECENSIONI (aggregato reale) ============ -->
     <section class="prova" id="prova">
       <p class="kicker kicker-chiaro" data-i18n="prova_kicker">La fiducia</p>
@@ -343,8 +379,19 @@
     <a class="ab-btn ab-second" href="mailto:elisirdelbenessere.et@gmail.com?subject=Richiesta%20appuntamento"><span data-i18n="write_cta">Scrivici</span></a>
   </div>
 
+  <!-- ============ LIGHTBOX ============ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galleria fotografica" hidden>
+    <button class="lb-close" type="button" aria-label="Chiudi">&times;</button>
+    <button class="lb-nav lb-prev" type="button" aria-label="Precedente">&#8249;</button>
+    <figure class="lb-fig">
+      <img class="lb-img" src="" alt="">
+      <figcaption class="lb-cap"></figcaption>
+    </figure>
+    <button class="lb-nav lb-next" type="button" aria-label="Successiva">&#8250;</button>
+  </div>
+
   <canvas id="rippleLayer" class="ripple-layer" aria-hidden="true"></canvas>
 
-  <script src="js/main.js?v=3"></script>
+  <script src="js/main.js?v=4"></script>
 </body>
 </html>
