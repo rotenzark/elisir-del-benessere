@@ -45,6 +45,8 @@ body {
   overflow-x: hidden;
 }
 .svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.ripple-layer { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 200; }
+@media (prefers-reduced-motion: reduce) { .ripple-layer { display: none; } }
 ::selection { background: var(--ambra); color: var(--candela); }
 img, svg { display: block; max-width: 100%; }
 a { color: inherit; }

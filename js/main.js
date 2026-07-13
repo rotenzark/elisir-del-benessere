@@ -207,6 +207,67 @@
     window.addEventListener('resize', maybeEnable, { passive: true });
   })();
 
+  /* ---------- ripple full-page (l'elisir che si propaga) ---------- */
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var cv = document.getElementById('rippleLayer');
+    if (!cv || !cv.getContext) return;
+    var ctx = cv.getContext('2d');
+    if (!ctx) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2), W = 0, H = 0;
+    function resize() {
+      W = window.innerWidth; H = window.innerHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      cv.style.width = W + 'px'; cv.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    var DUR = 1600;
+    var ripples = [], raf = null;
+
+    function spawn(x, y) {
+      ripples.push({ x: x, y: y, t: performance.now() });
+      if (ripples.length > 8) ripples.shift();
+      if (!raf) raf = requestAnimationFrame(loop);
+    }
+    function loop(now) {
+      ctx.clearRect(0, 0, W, H);
+      var maxr = Math.sqrt(W * W + H * H); // diagonale: copre tutta la pagina
+      var alive = false;
+      for (var i = 0; i < ripples.length; i++) {
+        var r = ripples[i], p = (now - r.t) / DUR;
+        if (p < 0 || p >= 1) continue;
+        alive = true;
+        var ease = 1 - Math.pow(1 - p, 3);
+        var rad = ease * maxr;
+        var fade = (1 - p);
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, rad, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(184, 117, 43, ' + (fade * 0.42).toFixed(3) + ')';
+        ctx.lineWidth = Math.max(0.5, 2.6 * fade);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, rad * 0.7, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(112, 122, 80, ' + (fade * 0.3).toFixed(3) + ')';
+        ctx.lineWidth = Math.max(0.5, 1.6 * fade);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, rad * 0.42, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(184, 117, 43, ' + (fade * 0.18).toFixed(3) + ')';
+        ctx.lineWidth = Math.max(0.5, 1 * fade);
+        ctx.stroke();
+      }
+      for (var j = ripples.length - 1; j >= 0; j--) { if ((now - ripples[j].t) >= DUR) ripples.splice(j, 1); }
+      if (alive) { raf = requestAnimationFrame(loop); }
+      else { raf = null; ctx.clearRect(0, 0, W, H); }
+    }
+    window.addEventListener('pointerdown', function (e) { spawn(e.clientX, e.clientY); }, { passive: true });
+    // goccia iniziale al centro, appena finita l'intro
+    setTimeout(function () { spawn(W / 2, H * 0.42); }, 2950);
+  })();
+
   /* ---------- anno, nav, barra azioni ---------- */
   document.querySelectorAll('[data-current-year]').forEach(function (el) { el.textContent = String(new Date().getFullYear()); });
 
